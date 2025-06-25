@@ -7,17 +7,17 @@ import (
 )
 
 func main() {
-	fmt.Println("== Паттерн pipeline представляющйи сосбой обработку данных в несколько этапов ==")
-	numbers := generateNumbers(10)
-	squared := square(numbers)
-	result := addTen(squared)
+	fmt.Println("== Паттерн pipeline представляющий сосбой обработку данных в несколько этапов ==")
+	numbers := generate(10)
+	squared := multiplySquare(numbers)
+	result := sumTen(squared)
 
 	for num := range result {
 		fmt.Printf("Результат: %d\n", num)
 	}
 }
 
-func generateNumbers(count int) <-chan int {
+func generate(count int) <-chan int {
 	out := make(chan int)
 	go func() {
 		defer close(out)
@@ -31,7 +31,7 @@ func generateNumbers(count int) <-chan int {
 	return out
 }
 
-func square(in <-chan int) <-chan int {
+func multiplySquare(in <-chan int) <-chan int {
 	out := make(chan int)
 	go func() {
 		defer close(out)
@@ -45,7 +45,7 @@ func square(in <-chan int) <-chan int {
 	return out
 }
 
-func addTen(in <-chan int) <-chan int {
+func sumTen(in <-chan int) <-chan int {
 	out := make(chan int)
 	go func() {
 		defer close(out)
